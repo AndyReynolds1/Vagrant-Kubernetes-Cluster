@@ -3,6 +3,14 @@ BOX_NAME = "ubuntu/focal64"
 
 Vagrant.configure("2") do |config|
   
+  # Add hosts file entries for all nodes
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update -y
+    echo "192.168.56.10  master" >> /etc/hosts
+    echo "192.168.56.11  node-01" >> /etc/hosts
+    echo "192.168.56.12  node-02" >> /etc/hosts
+  SHELL
+
   # Master node
   config.vm.define "master" do |master|
     master.vm.box = BOX_NAME

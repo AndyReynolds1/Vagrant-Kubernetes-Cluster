@@ -31,7 +31,11 @@ kubeadm token create --print-join-command > /vagrant/config/join.sh
 kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
 
 # Install Metrics Server
-kubectl apply -f https://raw.githubusercontent.com/scriptcamp/kubeadm-scripts/main/manifests/metrics-server.yaml
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+# Patch metrics-server deployment to use --kubelet-insecure-tls arg - https://github.com/kubernetes-sigs/metrics-server
+kubectl patch deployment metrics-server -n kube-system --type='json' -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls" }]'
+
 
 # Install Dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml

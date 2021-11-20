@@ -12,4 +12,4 @@ vagrant up
 
 Kubernetes dashboard should be available at `https://192.168.1.180:3000`
 
-Admin token for logging into the dashboard will be output into the `token` file.
+Admin token for logging into the dashboard will be output into the `config/token` file.
