@@ -10,6 +10,6 @@ Creates specified number of VMs and installs Docker, Kubernetes and initialises 
 vagrant up
 ```
 
-Kubernetes dashboard should be available at `https://192.168.1.180:3000`
+Kubernetes dashboard should be available at `https://192.168.56.10:30000`
 
 Admin token for logging into the dashboard will be output into the `config/token` file.
