@@ -11,9 +11,6 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# Install Calico CNI
-kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
-
 # Remove previous config files
 rm -rf /vagrant/config
 
@@ -35,7 +32,6 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 
 # Patch metrics-server deployment to use --kubelet-insecure-tls arg - https://github.com/kubernetes-sigs/metrics-server
 kubectl patch deployment metrics-server -n kube-system --type='json' -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls" }]'
-
 
 # Install Dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
