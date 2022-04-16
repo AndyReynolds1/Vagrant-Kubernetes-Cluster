@@ -4,6 +4,8 @@ Testing using Vagrant to automate deploying a local Kubernetes cluster.
 
 Creates specified number of VMs and installs Docker, Kubernetes and initialises a Kubernetes cluster.
 
+Updated to use latest Kubernetes version and switch container runtime to containerd instead of Docker.
+
 ## Run
 
 ```bash

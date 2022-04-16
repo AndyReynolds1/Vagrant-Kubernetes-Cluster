@@ -5,6 +5,8 @@ MASTER_IP="192.168.56.10"
 NODENAME=$(hostname -s)
 POD_CIDR="10.0.0.1/24"
 
+DASHBOARD_VERSION="v2.5.1"
+
 sudo kubeadm init --apiserver-advertise-address=$MASTER_IP  --apiserver-cert-extra-sans=$MASTER_IP --node-name $NODENAME --pod-network-cidr=$POD_CIDR
 
 mkdir -p $HOME/.kube
@@ -34,7 +36,7 @@ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/late
 kubectl patch deployment metrics-server -n kube-system --type='json' -p '[{"op": "add", "path": "/spec/template/spec/containers/0/args/-", "value": "--kubelet-insecure-tls" }]'
 
 # Install Dashboard
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/$DASHBOARD_VERSION/aio/deploy/recommended.yaml
 
 # Create dashboard User
 cat <<EOF | kubectl apply -f -
