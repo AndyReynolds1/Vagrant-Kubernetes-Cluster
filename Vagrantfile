@@ -1,5 +1,5 @@
 # Variables
-BOX_NAME = "ubuntu/focal64"
+BOX_NAME = "ubuntu/jammy64"
 
 Vagrant.configure("2") do |config|
   

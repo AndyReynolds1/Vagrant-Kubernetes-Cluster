@@ -5,7 +5,7 @@ MASTER_IP="192.168.56.10"
 NODENAME=$(hostname -s)
 POD_CIDR="10.0.0.1/24"
 
-DASHBOARD_VERSION="v2.5.1"
+DASHBOARD_VERSION="v2.7.0"
 
 sudo kubeadm init --apiserver-advertise-address=$MASTER_IP  --apiserver-cert-extra-sans=$MASTER_IP --node-name $NODENAME --pod-network-cidr=$POD_CIDR
 
@@ -63,7 +63,7 @@ subjects:
 EOF
 
 # Export admin token for dashboard
-kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}" >> /vagrant/config/token
+kubectl -n kubernetes-dashboard create token admin-user >> /vagrant/config/token
 
 # Patch dashboard service to use NodePort on specific port
 kubectl patch svc kubernetes-dashboard -n kubernetes-dashboard --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"},{"op":"replace","path":"/spec/ports/0/nodePort","value":30000}]'
