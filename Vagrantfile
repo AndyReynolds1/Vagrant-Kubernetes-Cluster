@@ -1,5 +1,6 @@
 # Variables
 BOX_NAME = "ubuntu/jammy64"
+WORKER_NODES = 2
 
 Vagrant.configure("2") do |config|
   
@@ -26,7 +27,7 @@ Vagrant.configure("2") do |config|
   end
 
   # Worker nodes
-  (1..2).each do |i|
+  (1..WORKER_NODES).each do |i|
   
     config.vm.define "node-0#{i}" do |node|
       node.vm.box = BOX_NAME
@@ -38,7 +39,13 @@ Vagrant.configure("2") do |config|
         vb.cpus = 1
       end
       node.vm.provision "shell", path: "scripts/common.sh"
-      node.vm.provision "shell", inline: "sudo /bin/bash /vagrant/config/join.sh -v"
+      node.vm.provision "shell", path: "scripts/worker.sh"
+
+      # Deploy apps when last node is up
+      if i == WORKER_NODES
+        node.vm.provision "shell", path: "scripts/deploy.sh"
+      end
+
     end
   end
 end
